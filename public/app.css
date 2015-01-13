@@ -1,0 +1,13 @@
+body > header{
+    height: 50px;
+}
+
+.required:after {
+    content: "*";
+    padding-left:1%;
+}
+
+.form-control{
+    width:97%;
+    float:left;
+}

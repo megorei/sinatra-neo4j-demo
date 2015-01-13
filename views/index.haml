@@ -2,13 +2,15 @@
   .advisor.panel.panel-default
     .panel-heading Find drugs and doctors
     .panel-body
+      %p
+        Please enter age, symptoms and allergies(optional) to find drugs and doctors
       %form.form-horizontal
         .form-group
-          %label.col-sm-2.control-label Age
+          %label.col-sm-2.control-label.required Age
           .col-sm-10
             %input.age.form-control(placeholder='Your age' type='text')/
         .form-group
-          %label.col-sm-2.control-label Symptoms
+          %label.col-sm-2.control-label.required Symptoms
           .col-sm-10
             %select.symptoms(multiple)
               - @symptoms.each do |symptom|
