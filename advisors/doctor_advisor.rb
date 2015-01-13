@@ -6,7 +6,11 @@ class DoctorAdvisor
     query = query.match('(drug:Drug)-[:belongs_to_class]->(drug_class), (allergy:Allergy)')
     query = query.where('NOT (drug)-[:may_cause_allergy]->(allergy) OR NOT(allergy.name IN {allergies})').params(allergies: allergies)
     query = query.with('drug_class, drug')
-    query = query.match('(doctor:Doctor)-->(spe:DoctorSpecialization)-[:can_prescribe]->(drug_class)').return('DISTINCT(doctor)')
-    query.pluck(:doctor).uniq{ |doctor| doctor.name }
+    query = query.match('(doctor:Doctor)-->(spe:DoctorSpecialization)-[:can_prescribe]->(drug_class)').
+      return('DISTINCT(doctor) AS doctor, 2 * 6371 * asin(sqrt(haversin(radians({lat} - COALESCE(doctor.latitude,{lat}))) + cos(radians({lat})) * cos(radians(COALESCE(doctor.latitude,90)))* haversin(radians({long} - COALESCE(doctor.longitude,{long}))))) AS distance').
+      params(lat: latitude, long: longitude).order('distance ASC')
+    query.map do |result|
+      [result.doctor, result.distance]
+    end
   end
 end

@@ -17,6 +17,14 @@ def age(params)
   params[:age].to_i
 end
 
+def latitude
+  params[:latitude].to_f
+end
+
+def longitude
+  params[:longitude].to_f
+end
+
 def all_symptoms
   Symptom.all.pluck('n.name')
 end
@@ -45,6 +53,9 @@ get '/drug' do
 end
 
 get '/doctor' do
-  @doctors = DoctorAdvisor.new.get(symptoms(params), age(params), allergies(params))
-  @doctors.map(&:name).to_json
+  results = DoctorAdvisor.new.get(symptoms(params), age(params), allergies(params), latitude, longitude)
+  results.inject({}) do |hash, result|
+    doctor, distance = result
+    hash.merge!(doctor.name => distance.round(2))
+  end.to_json
 end

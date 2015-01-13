@@ -1,20 +1,28 @@
-$(document).ready(function(){
-    var updateSuggestion = function(target, json){
-        target.empty();
-        $.each(json, function(key, value){
-            target.append('<li class="list-group-item">' + value + '</li>');
-        });
-    };
+window.onload = function(){
+    if(navigator.geolocation) navigator.geolocation.getCurrentPosition(handleGetCurrentPosition);
+};
 
+function handleGetCurrentPosition(location){
+    window.latitude     = location.coords.latitude;
+    window.longitude    = location.coords.longitude;
+}
+
+$(document).ready(function(){
     var adviseDrug = function(symptoms, age, allergies){
-        $.getJSON('/drug', {"symptoms": symptoms, "allergies": allergies, age: age}).done(function(json){
-            updateSuggestion($(".suggestion .drugs"), json);
+        $.getJSON('/drug', {"symptoms": symptoms, "allergies": allergies, age: age, latitude: window.latitude, longitude: window.longitude}).done(function(json){
+            $(".suggestion .drugs").empty();
+            $.each(json, function(key, value){
+                $(".suggestion .drugs").append('<li class="list-group-item">' + value + '</li>');
+            });
         });
     };
 
     var adviseDoctor = function(symptoms, age, allergies){
-        $.getJSON('/doctor', {"symptoms": symptoms, "allergies": allergies, age: age}).done(function(json){
-            updateSuggestion($(".suggestion .doctors"), json);
+        $.getJSON('/doctor', {"symptoms": symptoms, "allergies": allergies, age: age, latitude: window.latitude, longitude: window.longitude}).done(function(json){
+            $(".suggestion .doctors").empty();
+            $.each(json, function(key, value){
+                $(".suggestion .doctors").append('<li class="list-group-item"><span class="badge">' + value + ' km</span>' + key + '</li>');
+            });
         });
     };
 
