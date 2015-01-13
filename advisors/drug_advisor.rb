@@ -6,6 +6,6 @@ class DrugAdvisor
     query = query.match('(drug:Drug)-[:belongs_to_class]->(drug_class), (allergy:Allergy)')
     query = query.where('NOT (drug)-[:may_cause_allergy]->(allergy) OR NOT(allergy.name IN {allergies})').params(allergies: allergies)
     query = query.return('drug')
-    query.pluck(:drug)
+    query.pluck(:drug).uniq{ |drug| drug.name}
   end
 end
