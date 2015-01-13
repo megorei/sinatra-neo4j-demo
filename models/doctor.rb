@@ -1,7 +1,7 @@
 class Doctor
   include Neo4j::ActiveNode
+  include IntegerId
 
-  property :id,   type: Integer, index: :exact
   property :name, index: :exact
   property :latitude
   property :longitude

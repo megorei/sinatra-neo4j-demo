@@ -5,7 +5,7 @@ class DrugAdvisor
     query = query.match('(drug_class:DrugClass)-[cures:cures]->(patho)').where('cures.age_min <= {age} AND {age} < cures.age_max').params(age: age).with('drug_class')
     query = query.match('(drug:Drug)-[:belongs_to_class]->(drug_class), (allergy:Allergy)')
     query = query.where('NOT (drug)-[:may_cause_allergy]->(allergy) OR NOT(allergy.name IN {allergies})').params(allergies: allergies)
-    query = query.return('drug')
-    query.pluck(:drug).uniq{ |drug| drug.name}
+    query = query.return('DISTINCT(drug) AS drug')
+    query.to_a.map(&:drug)
   end
 end

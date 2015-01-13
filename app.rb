@@ -55,8 +55,8 @@ end
 
 get '/doctor' do
   results = DoctorAdvisor.new.get(symptoms(params), age(params), allergies(params), latitude, longitude)
-  results.inject({}) do |hash, result|
-    doctor, distance = result
+  results.inject({}) do |hash, pair|
+    doctor, distance = pair
     hash.merge!(doctor.name => distance.round(2))
   end.to_json
 end
