@@ -1,0 +1,30 @@
+.advisors.container
+  .advisor.panel.panel-default
+    .panel-heading Find a drug and a doctor
+    .panel-body
+      %form.form-horizontal
+        .form-group
+          %label.col-sm-2.control-label Age
+          .col-sm-10
+            %input.age.form-control(placeholder='Your age' type='text')/
+        .form-group
+          %label.col-sm-2.control-label Symptoms
+          .col-sm-10
+            %select.symptoms(multiple)
+              - @symptoms.each do |symptom|
+                %option{name: symptom, value: symptom}= symptom
+        .form-group
+          %label.col-sm-2.control-label Allergies
+          .col-sm-10
+            %select.allergies(multiple)
+              - @allergies.each do |allergy|
+                %option{name: allergy, value: allergy}= allergy
+      %hr
+      .suggestion
+        .col-sm-6
+          Drugs
+          %ul.drugs.list-group
+
+        .col-sm-6
+          Doctors
+          %ul.doctors.list-group
