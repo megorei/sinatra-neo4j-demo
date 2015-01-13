@@ -4,6 +4,7 @@ require './advisors/doctor_advisor'
 require 'sinatra'
 
 set :haml, format: :html5
+set :port, 80 if Sinatra::Base.environment == 'production'
 
 def symptoms(params)
   params[:symptoms] || []

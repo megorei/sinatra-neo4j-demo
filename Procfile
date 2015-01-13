@@ -1,0 +1,1 @@
+web: RACK_ENV=production ruby app.rb
