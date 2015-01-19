@@ -27,9 +27,10 @@ $(document).ready(function(){
     };
 
     var updateSuggestions = function(element){
-        var symptoms    = $(element).parents('.advisor').find('.symptoms').val();
-        var allergies   = $(element).parents('.advisor').find('.allergies').val();
-        var age         = $(element).parents('.advisor').find('.age').val();
+        var advisor     = $(element).parents('.advisor');
+        var symptoms    = advisor.find('.symptoms').val();
+        var allergies   = advisor.find('.allergies').val();
+        var age         = advisor.find('.age').val();
         adviseDrug(symptoms, age, allergies);
         adviseDoctor(symptoms, age, allergies);
     };

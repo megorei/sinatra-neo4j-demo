@@ -14,13 +14,13 @@
           .col-sm-10
             %select.symptoms(multiple)
               - @symptoms.each do |symptom|
-                %option{name: symptom, value: symptom}= symptom
+                %option{name: symptom.name, value: symptom.name}= symptom.name
         .form-group
           %label.col-sm-2.control-label Allergies
           .col-sm-10
             %select.allergies(multiple)
               - @allergies.each do |allergy|
-                %option{name: allergy, value: allergy}= allergy
+                %option{name: allergy.name, value: allergy.name}= allergy.name
       %hr
       .suggestion
         .col-sm-6

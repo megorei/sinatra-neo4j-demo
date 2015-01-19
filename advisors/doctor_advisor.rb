@@ -1,5 +1,5 @@
 class DoctorAdvisor
-  def get(symptoms, age, allergies = [], latitude = nil, longitude = nil)
+  def find(symptoms, age, allergies = [], latitude = nil, longitude = nil)
     Neo4j::Session.current.query.
         match('(patho:Pathology)-[:may_manifest_symptoms]->(symptoms:Symptom)').
         where('symptoms.name' => symptoms).

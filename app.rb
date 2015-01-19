@@ -6,15 +6,15 @@ require 'sinatra'
 set :haml, format: :html5
 set :port, 80 if Sinatra::Base.environment == 'production'
 
-def symptoms(params)
+def symptoms
   params[:symptoms] || []
 end
 
-def allergies(params)
+def allergies
   params[:allergies] || []
 end
 
-def age(params)
+def age
   params[:age].to_i
 end
 
@@ -26,35 +26,19 @@ def longitude
   params[:longitude].to_f
 end
 
-def all_symptoms
-  Symptom.all.pluck('n.name')
-end
-
-def all_allergies
-  Allergy.all.pluck('n.name')
-end
-
-get '/symptoms.json' do
-  all_symptoms.to_json
-end
-
-get '/allergies.json' do
-  all_allergies.to_json
-end
-
 get '/' do
-  @symptoms  = all_symptoms
-  @allergies = all_allergies
+  @symptoms  = Symptom.all
+  @allergies = Allergy.all
   haml :index
 end
 
 get '/drug' do
-  @drugs = DrugAdvisor.new.get(symptoms(params), age(params), allergies(params))
+  @drugs = DrugAdvisor.new.find(symptoms, age, allergies)
   @drugs.map(&:name).to_json
 end
 
 get '/doctor' do
-  results = DoctorAdvisor.new.get(symptoms(params), age(params), allergies(params), latitude, longitude)
+  results = DoctorAdvisor.new.find(symptoms, age, allergies, latitude, longitude)
   results.inject({}) do |hash, pair|
     doctor, distance = pair
     hash.merge!(doctor.name => distance.round(2))
