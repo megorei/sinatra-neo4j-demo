@@ -3,4 +3,5 @@ class Pathology
   include IntegerId
 
   property :name, index: :exact
+  has_many :in, :drug_classes, type: :cures
 end
