@@ -9,7 +9,7 @@ function handleGetCurrentPosition(location){
 
 $(document).ready(function(){
     var adviseDrug = function(symptoms, age, allergies){
-        $.getJSON('/drug', {"symptoms": symptoms, "allergies": allergies, age: age, latitude: window.latitude, longitude: window.longitude}).done(function(json){
+        $.getJSON('/drugs', {"symptoms": symptoms, "allergies": allergies, age: age, latitude: window.latitude, longitude: window.longitude}).done(function(json){
             $(".suggestion .drugs").empty();
             $.each(json, function(key, value){
                 $(".suggestion .drugs").append('<li class="list-group-item">' + value + '</li>');
@@ -18,7 +18,7 @@ $(document).ready(function(){
     };
 
     var adviseDoctor = function(symptoms, age, allergies){
-        $.getJSON('/doctor', {"symptoms": symptoms, "allergies": allergies, age: age, latitude: window.latitude, longitude: window.longitude}).done(function(json){
+        $.getJSON('/doctors', {"symptoms": symptoms, "allergies": allergies, age: age, latitude: window.latitude, longitude: window.longitude}).done(function(json){
             $(".suggestion .doctors").empty();
             $.each(json, function(key, value){
                 $(".suggestion .doctors").append('<li class="list-group-item"><span class="badge">' + value + ' km</span>' + key + '</li>');

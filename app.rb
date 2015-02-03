@@ -32,12 +32,12 @@ get '/' do
   haml :index
 end
 
-get '/drug' do
+get '/drugs' do
   @drugs = DrugAdvisor.new.find(symptoms, age, allergies)
   @drugs.map(&:name).to_json
 end
 
-get '/doctor' do
+get '/doctors' do
   results = DoctorAdvisor.new.find(symptoms, age, allergies, latitude, longitude)
   results.inject({}) do |hash, pair|
     doctor, distance = pair
